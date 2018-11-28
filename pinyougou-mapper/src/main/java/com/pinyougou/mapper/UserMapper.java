@@ -12,5 +12,5 @@ import com.pinyougou.pojo.User;
 public interface UserMapper extends Mapper<User>{
 
 
-
+    String getUserPhone(String username);
 }

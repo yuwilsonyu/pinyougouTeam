@@ -3,7 +3,12 @@ package com.pinyougou.user.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Example;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 用户控制器
@@ -18,6 +23,9 @@ public class UserController {
 
     @Reference(timeout = 10000)
     private UserService userService;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     /** 注册用户 */
     @PostMapping("/save")
@@ -46,5 +54,52 @@ public class UserController {
         return false;
     }
 
+    /** 更新用户密码*/
+    @GetMapping("/updateUserpassword")
+    public boolean updateUserpassword(String password){
+        try{
+            String username = httpServletRequest.getRemoteUser();
+            return userService.updateUserpassword(username,password);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
+    /**获取登录用户手机号*/
+    @GetMapping("/getUserPhone")
+    public String getUserPhone(){
+        try {
+            String username = httpServletRequest.getRemoteUser();
+            String phone = userService.getUserPhone(username);
+            return phone;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /** 验证验证码是否正确*/
+    @GetMapping("/checkCode")
+    public boolean checkCode(String phone, String code){
+        try{
+            boolean ok = userService.checkSmsCode(code,phone);
+            return ok;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /** 更新用户手机*/
+    @GetMapping("/updateUserPhone")
+    public boolean updateUserPhone (String newPhone,String code){
+        try {
+            String username = httpServletRequest.getRemoteUser();
+            return userService.updateUserPhone(username,newPhone);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -4,5 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pinyougou.mapper.UserMapper">
-
+<select id="getUserPhone" resultType="String">
+	SELECT phone FROM tb_user WHERE username = #{username}
+</select>
 </mapper>
