@@ -26,7 +26,7 @@ public class BrandController {
 
     /**
      * 配置引用服务
-     * jindaye
+     * jindaye测试中
      * timeout:连接超时(调用服务方法的时间)
      */
     @Reference(timeout = 10000)
