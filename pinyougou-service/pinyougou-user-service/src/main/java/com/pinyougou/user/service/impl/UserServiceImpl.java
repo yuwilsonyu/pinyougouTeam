@@ -55,7 +55,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
+    public boolean update(User user) {
+        try{
+            userMapper.update(user);
+            return true;
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
 
     }
 

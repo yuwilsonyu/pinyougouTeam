@@ -37,5 +37,16 @@
             <groupId>org.jasig.cas.client</groupId>
             <artifactId>cas-client-core</artifactId>
         </dependency>
+
+        <!-- 配置文件上传的依赖jar包 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <!-- 配置FastDFS客户端jar包 -->
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client</artifactId>
+        </dependency>
     </dependencies>
 </project>

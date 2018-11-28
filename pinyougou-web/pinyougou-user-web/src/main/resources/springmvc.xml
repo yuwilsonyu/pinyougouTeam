@@ -12,7 +12,8 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-
+    <!-- 加载属性文件 -->
+    <context:property-placeholder location="classpath:application.properties"/>
 
     <!-- 开启MVC注解驱动 -->
     <mvc:annotation-driven>
@@ -30,7 +31,13 @@
     <!-- 配置静态资源用WEB容器默认的servlet来处理 -->
     <mvc:default-servlet-handler/>
 
-
+    <!-- 配置文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置默认文件上传的编码 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 设置上传文件的大小 2M -->
+        <property name="maxUploadSize" value="2097152"/>
+    </bean>
     <!-- ######### 配置Dubbo服务消费者 ######### -->
     <!-- 当前应用名称 -->
     <dubbo:application name="pinyougou-user-web"  />

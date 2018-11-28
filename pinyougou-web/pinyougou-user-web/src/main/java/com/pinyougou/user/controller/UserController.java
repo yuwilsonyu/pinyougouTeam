@@ -46,5 +46,23 @@ public class UserController {
         return false;
     }
 
+    /** 注册用户 */
+    @PostMapping("/update")
+    public boolean update(@RequestBody User user){
+//        {"headPic":"xxxx","nickName":"abab","sex":"男","birthday":"2018-10-31","provinceId":"430000","cityId":"431300","townId":"431301","job":"bj"}
+        try{
+            if (user.getSex().equals("男")) {
+                user.setSex("1");
+            }else{
+                user.setSex("2");
+            }
+            return userService.update(user);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }

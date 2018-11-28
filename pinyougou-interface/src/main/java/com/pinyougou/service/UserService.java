@@ -14,7 +14,7 @@ public interface UserService {
 	void save(User user);
 
 	/** 修改方法 */
-	void update(User user);
+	boolean update(User user);
 
 	/** 根据主键id删除 */
 	void delete(Serializable id);
