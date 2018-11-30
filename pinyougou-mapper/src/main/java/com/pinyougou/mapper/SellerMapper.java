@@ -13,7 +13,7 @@ import com.pinyougou.pojo.Seller;
  * @version 1.0
  */
 public interface SellerMapper extends Mapper<Seller>{
-    /** 从数据库查询原密码进行比较 */
+    /** 从数据库查询原密码进  行比较 */
     @Select("select password from tb_seller where seller_id = #{sellerId}")
     String findPassword(String sellerId);
     /** 更新密码   */

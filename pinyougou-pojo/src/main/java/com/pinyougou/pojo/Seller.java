@@ -1,237 +1,237 @@
 package com.pinyougou.pojo;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.*;
- 
+import java.io.Serializable;
+
 /**
- * 商家实体
- * @author LEE.SIU.WAH
- * @email lixiaohua7@163.com
- * @date 2017年12月14日 下午2:02:20
+ * Seller 实体类
+ * @date 2018-11-03 14:52:44
  * @version 1.0
  */
-@Table(name="tb_seller")
+@Table(name = "tb_seller")
 public class Seller implements Serializable{
-   
-	private static final long serialVersionUID = -6636378626574886353L;
-	/** 登录名 */
-	@Id @Column(name="seller_id")
-	private String sellerId;
-	/** 公司名称 */
-	@Column(name="name")
+
+    private static final long serialVersionUID = 1L;
+
+    /** 主键ID */
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private String sellerId;
+
+    @Column(name = "name")
     private String name;
-    /** 店铺名称 */
-	@Column(name="nick_name")
+
+    @Column(name = "nick_name")
     private String nickName;
-    /** 登录密码 */
-	@Column(name="password")
+
+    @Column(name = "password")
     private String password;
-    /** 公司邮箱 */
-	@Column(name="email")
+
+    @Column(name = "email")
     private String email;
-    /** 手机 */
-	@Column(name="mobile")
+
+    @Column(name = "mobile")
     private String mobile;
-    /** 公司电话 */
-	@Column(name="telephone")
+
+    @Column(name = "telephone")
     private String telephone;
-    /** 状态 */
-	@Column(name="status")
+
+    @Column(name = "status")
     private String status;
-    /** 公司详细地址 */
-	@Column(name="address_detail")
+
+    @Column(name = "address_detail")
     private String addressDetail;
-    /** 联系人姓名 */
-	@Column(name="linkman_name")
+
+    @Column(name = "linkman_name")
     private String linkmanName;
-    /** 联系人QQ */
-	@Column(name="linkman_qq")
+
+    @Column(name = "linkman_qq")
     private String linkmanQq;
-    /** 联系人手机 */
-	@Column(name="linkman_mobile")
+
+    @Column(name = "linkman_mobile")
     private String linkmanMobile;
-    /** 联系人EMAIL */
-	@Column(name="linkman_email")
+
+    @Column(name = "linkman_email")
     private String linkmanEmail;
-    /** 营业执照号 */
-	@Column(name="license_number")
+
+    @Column(name = "license_number")
     private String licenseNumber;
-    /** 税务登记证号 */
-	@Column(name="tax_number")
+
+    @Column(name = "tax_number")
     private String taxNumber;
-    /** 组织机构代码证 */
-	@Column(name="org_number")
+
+    @Column(name = "org_number")
     private String orgNumber;
-    /** 邮编 */
-	@Column(name="address")
+
+    @Column(name = "address")
     private Long address;
-    /** 公司LOGO */
-	@Column(name="logo_pic")
+
+    @Column(name = "logo_pic")
     private String logoPic;
-    /** 创建时间 */
-	@Column(name="create_time")
-    private Date createTime;
-    /** 法定代表人 */
-	@Column(name="legal_person")
-    private String legalPerson;
-    /** 法定代表人身份证号 */
-	@Column(name="legal_person_card_id")
-    private String legalPersonCardId;
-    /** 开户行名称 */
-	@Column(name="bank_name")
-    private String bankName;
-    /** 开户行支行 */
-	@Column(name="bank_user")
-    private String bankUser;
-    /** 银行账号 */
-	@Column(name="brief")
+
+    @Column(name = "brief")
     private String brief;
-    
+
+    @Column(name = "create_time")
+    private java.util.Date createTime;
+
+    @Column(name = "legal_person")
+    private String legalPerson;
+
+    @Column(name = "legal_person_card_id")
+    private String legalPersonCardId;
+
+    @Column(name = "bank_user")
+    private String bankUser;
+
+    @Column(name = "bank_name")
+    private String bankName;
+
+
     /** setter and getter method */
-    public String getSellerId() {
-        return sellerId;
+    public void setSellerId(String sellerId){
+        this.sellerId = sellerId;
     }
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId == null ? null : sellerId.trim();
+    public String getSellerId(){
+        return this.sellerId;
     }
-    public String getName() {
-        return name;
+    public void setName(String name){
+        this.name = name;
     }
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public String getName(){
+        return this.name;
     }
-    public String getNickName() {
-        return nickName;
+    public void setNickName(String nickName){
+        this.nickName = nickName;
     }
-    public void setNickName(String nickName) {
-        this.nickName = nickName == null ? null : nickName.trim();
+    public String getNickName(){
+        return this.nickName;
     }
-    public String getPassword() {
-        return password;
+    public void setPassword(String password){
+        this.password = password;
     }
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public String getPassword(){
+        return this.password;
     }
-    public String getEmail() {
-        return email;
+    public void setEmail(String email){
+        this.email = email;
     }
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+    public String getEmail(){
+        return this.email;
     }
-    public String getMobile() {
-        return mobile;
+    public void setMobile(String mobile){
+        this.mobile = mobile;
     }
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
+    public String getMobile(){
+        return this.mobile;
     }
-    public String getTelephone() {
-        return telephone;
+    public void setTelephone(String telephone){
+        this.telephone = telephone;
     }
-    public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
+    public String getTelephone(){
+        return this.telephone;
     }
-    public String getStatus() {
-        return status;
+    public void setStatus(String status){
+        this.status = status;
     }
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public String getStatus(){
+        return this.status;
     }
-    public String getAddressDetail() {
-        return addressDetail;
+    public void setAddressDetail(String addressDetail){
+        this.addressDetail = addressDetail;
     }
-    public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail == null ? null : addressDetail.trim();
+    public String getAddressDetail(){
+        return this.addressDetail;
     }
-    public String getLinkmanName() {
-        return linkmanName;
+    public void setLinkmanName(String linkmanName){
+        this.linkmanName = linkmanName;
     }
-    public void setLinkmanName(String linkmanName) {
-        this.linkmanName = linkmanName == null ? null : linkmanName.trim();
+    public String getLinkmanName(){
+        return this.linkmanName;
     }
-    public String getLinkmanQq() {
-        return linkmanQq;
+    public void setLinkmanQq(String linkmanQq){
+        this.linkmanQq = linkmanQq;
     }
-    public void setLinkmanQq(String linkmanQq) {
-        this.linkmanQq = linkmanQq == null ? null : linkmanQq.trim();
+    public String getLinkmanQq(){
+        return this.linkmanQq;
     }
-    public String getLinkmanMobile() {
-        return linkmanMobile;
+    public void setLinkmanMobile(String linkmanMobile){
+        this.linkmanMobile = linkmanMobile;
     }
-    public void setLinkmanMobile(String linkmanMobile) {
-        this.linkmanMobile = linkmanMobile == null ? null : linkmanMobile.trim();
+    public String getLinkmanMobile(){
+        return this.linkmanMobile;
     }
-    public String getLinkmanEmail() {
-        return linkmanEmail;
+    public void setLinkmanEmail(String linkmanEmail){
+        this.linkmanEmail = linkmanEmail;
     }
-    public void setLinkmanEmail(String linkmanEmail) {
-        this.linkmanEmail = linkmanEmail == null ? null : linkmanEmail.trim();
+    public String getLinkmanEmail(){
+        return this.linkmanEmail;
     }
-    public String getLicenseNumber() {
-        return licenseNumber;
+    public void setLicenseNumber(String licenseNumber){
+        this.licenseNumber = licenseNumber;
     }
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber == null ? null : licenseNumber.trim();
+    public String getLicenseNumber(){
+        return this.licenseNumber;
     }
-    public String getTaxNumber() {
-        return taxNumber;
+    public void setTaxNumber(String taxNumber){
+        this.taxNumber = taxNumber;
     }
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber == null ? null : taxNumber.trim();
+    public String getTaxNumber(){
+        return this.taxNumber;
     }
-    public String getOrgNumber() {
-        return orgNumber;
+    public void setOrgNumber(String orgNumber){
+        this.orgNumber = orgNumber;
     }
-    public void setOrgNumber(String orgNumber) {
-        this.orgNumber = orgNumber == null ? null : orgNumber.trim();
+    public String getOrgNumber(){
+        return this.orgNumber;
     }
-    public Long getAddress() {
-        return address;
-    }
-    public void setAddress(Long address) {
+    public void setAddress(Long address){
         this.address = address;
     }
-    public String getLogoPic() {
-        return logoPic;
+    public Long getAddress(){
+        return this.address;
     }
-    public void setLogoPic(String logoPic) {
-        this.logoPic = logoPic == null ? null : logoPic.trim();
+    public void setLogoPic(String logoPic){
+        this.logoPic = logoPic;
     }
-    public String getBrief() {
-        return brief;
+    public String getLogoPic(){
+        return this.logoPic;
     }
-    public void setBrief(String brief) {
-        this.brief = brief == null ? null : brief.trim();
+    public void setBrief(String brief){
+        this.brief = brief;
     }
-    public Date getCreateTime() {
-        return createTime;
+    public String getBrief(){
+        return this.brief;
     }
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(java.util.Date createTime){
         this.createTime = createTime;
     }
-    public String getLegalPerson() {
-        return legalPerson;
+    public java.util.Date getCreateTime(){
+        return this.createTime;
     }
-    public void setLegalPerson(String legalPerson) {
-        this.legalPerson = legalPerson == null ? null : legalPerson.trim();
+    public void setLegalPerson(String legalPerson){
+        this.legalPerson = legalPerson;
     }
-    public String getLegalPersonCardId() {
-        return legalPersonCardId;
+    public String getLegalPerson(){
+        return this.legalPerson;
     }
-    public void setLegalPersonCardId(String legalPersonCardId) {
-        this.legalPersonCardId = legalPersonCardId == null ? null : legalPersonCardId.trim();
+    public void setLegalPersonCardId(String legalPersonCardId){
+        this.legalPersonCardId = legalPersonCardId;
     }
-    public String getBankUser() {
-        return bankUser;
+    public String getLegalPersonCardId(){
+        return this.legalPersonCardId;
     }
-    public void setBankUser(String bankUser) {
-        this.bankUser = bankUser == null ? null : bankUser.trim();
+    public void setBankUser(String bankUser){
+        this.bankUser = bankUser;
     }
-    public String getBankName() {
-        return bankName;
+    public String getBankUser(){
+        return this.bankUser;
     }
-    public void setBankName(String bankName) {
-        this.bankName = bankName == null ? null : bankName.trim();
+    public void setBankName(String bankName){
+        this.bankName = bankName;
     }
+    public String getBankName(){
+        return this.bankName;
+    }
+
 }
