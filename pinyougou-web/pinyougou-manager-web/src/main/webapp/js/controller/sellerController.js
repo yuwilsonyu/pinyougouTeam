@@ -24,19 +24,42 @@ app.controller('sellerController', function($scope, $controller, baseService){
        $scope.entity = JSON.parse(JSON.stringify(entity));
     };
 
-
+    $scope.statusArr = ["未审核","审核通过","审核不通过","关闭"];
+    /*根据上面定义的ids数组 删除一个或多个数据*/
+    $scope.delete = function () {
+        /*先判断是否要发送异步请求*/
+        if ($scope.ids.length > 0) {
+            baseService.deleteById('/sellerCheck/delete', $scope.ids).then(function (value) {
+                if (value.data) {
+                    $scope.reload();
+                } else {
+                    alert("服务器忙")
+                }
+            });
+        } else {
+            alert("您还没有选择呢")
+        }
+    };
     /** 审核商家 */
-    $scope.updateStatus = function(sellerId, status){
+   /* $scope.updateStatus = function(sellerId, status){
         baseService.sendGet("/seller/updateStatus?sellerId="
             + sellerId + "&status=" + status)
             .then(function(response){
                 if (response.data){
-                    /** 重新加载数据 */
+                    /!** 重新加载数据 *!/
                     $scope.reload();
                 }else{
                     alert("审核失败！");
                 }
             });
 
+    };*/
+    $scope.updateStatus = function(sellerId,status){
+        baseService.sendGet('/seller/updateStatus?sellerId='+sellerId+'&status='+status)
+            .then(function (value) {
+                if (value.data){
+                    $scope.reload();
+                }
+            })
     };
 });
