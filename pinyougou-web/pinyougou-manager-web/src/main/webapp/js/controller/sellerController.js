@@ -22,7 +22,7 @@ app.controller("sellerController", function ($scope, $controller, baseService) {
         // $scope.entity = entity;
         $scope.entity = JSON.parse(JSON.stringify(entity));
     };
-
+/**/
     /** 定义查询条件对象 */
     $scope.searchEntity = {};
     // 多条件分页查询品牌,商家审核页面设置status为0,商家管理界面待选
