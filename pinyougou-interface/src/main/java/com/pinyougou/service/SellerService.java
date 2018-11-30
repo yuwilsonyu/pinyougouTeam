@@ -17,7 +17,7 @@ public interface SellerService {
 	/** 修改方法 */
 	void update(Seller seller);
 
-	/** 根据主键id删除 */
+	/** 根据主键id删除   */
 	void delete(Serializable id);
 
 	/** 批量删除 */
