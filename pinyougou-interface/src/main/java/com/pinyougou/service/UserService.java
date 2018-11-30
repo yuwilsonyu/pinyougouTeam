@@ -36,4 +36,13 @@ public interface UserService {
 
 	/** 检验短信验证码 */
 	boolean checkSmsCode(String smsCode, String phone);
+
+	/** 更新用户密码*/
+    boolean updateUserpassword(String username, String password);
+
+    /** 获取用户手机号*/
+	String getUserPhone(String username);
+
+	/** 更新用户手机号*/
+    boolean updateUserPhone(String username, String newPhone);
 }

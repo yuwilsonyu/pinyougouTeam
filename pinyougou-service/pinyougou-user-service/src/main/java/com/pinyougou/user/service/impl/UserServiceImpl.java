@@ -7,10 +7,12 @@ import com.pinyougou.mapper.UserMapper;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
 import java.util.*;
@@ -121,6 +123,50 @@ public class UserServiceImpl implements UserService {
                 redisTemplate.boundValueOps(phone).set(code, 90, TimeUnit.SECONDS);
             }
             return success;
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /** 获取用户手机号*/
+    @Override
+    public String getUserPhone(String username) {
+        try{
+            return userMapper.getUserPhone(username);
+        }catch (Exception ex){
+         throw new RuntimeException(ex);
+        }
+    }
+
+    /** 更新用户手机*/
+    @Override
+    public boolean updateUserPhone(String username, String newPhone) {
+        try{
+            User user= new User();
+            user.setPhone(newPhone);
+            user.setUpdated(new Date());
+            Example example = new Example(User.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("username",username);
+            userMapper.updateByExampleSelective(user,example);
+            return true;
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /** 更新用户密码 */
+    @Override
+    public boolean updateUserpassword(String username, String password) {
+        try{
+            User user = new User();
+            user.setUpdated(new Date());
+            user.setPassword(DigestUtils.md5Hex(password));
+            Example example = new Example(User.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("username",username);
+            userMapper.updateByExampleSelective(user,example);
+            return true;
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
