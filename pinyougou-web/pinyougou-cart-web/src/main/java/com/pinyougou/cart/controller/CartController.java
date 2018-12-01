@@ -1,9 +1,11 @@
 package com.pinyougou.cart.controller;
+import com.pinyougou.pojo.OrderItem;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.pinyougou.cart.Cart;
 import com.pinyougou.common.util.CookieUtils;
+import com.pinyougou.service.CartCountService;
 import com.pinyougou.service.CartService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,8 +35,10 @@ public class CartController {
     private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
-    @Reference(timeout = 10000)
+    @Reference(timeout = 100000)
     private CartService cartService;
+    @Reference(timeout = 100000)
+    private CartCountService cartCountService;
 
     /** 添加SKU商品到购物车 */
     @GetMapping("/addCart")
@@ -120,4 +126,63 @@ public class CartController {
         }
         return carts;
     }
+
+
+
+    /** 添加SKU商品到购物车只存在cookie中 */
+    public List<Cart> addCookieCart(Long itemId, Integer num){
+        try{
+            // 获取购物车集合
+            List<Cart> carts = findCookieCart();
+            // 调用服务层添加SKU商品到购物车
+            carts = cartCountService.addItemToCartCookie(carts, itemId, num);
+            return carts;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    /** 查询购物车集合只存在cookie中 */
+    @GetMapping("/findCookieCart")
+    public List<Cart> findCookieCart() {
+        // 从Cookie中获取购物车集合json字符串
+        String cartStr = CookieUtils.getCookieValue(request,
+                CookieUtils.CookieName.PINYOUGOUCOUNT_CART, true);
+        // 判断是否为空
+        if (StringUtils.isBlank(cartStr)){
+            cartStr = "[]";
+        }
+        List<Cart> carts = JSON.parseArray(cartStr, Cart.class);
+        return carts;
+    }
+
+
+    /**用户勾选后添加购物车集合只存在cookie中 */
+    @GetMapping("/addCountCart")
+    public boolean addCountCart(Long[] itemIds, Integer[] nums){
+        if (itemIds!=null&&nums!=null) {
+            List<Cart> newCarts=new ArrayList<>();
+            for (int i=0;i<itemIds.length;i++) {
+                Long itemId = itemIds[i];
+                Integer num = nums[i];
+                //更新原始购物车
+                addCart(itemId,-num);
+
+
+                List<Cart> carts = addCookieCart(itemId, num);
+                for (Cart cart : carts) {
+                    newCarts.add(cart);
+                }
+            }
+            // 将结算购物车重新存入Cookie中
+            CookieUtils.setCookie(request, response,
+                    CookieUtils.CookieName.PINYOUGOUCOUNT_CART,
+                    JSON.toJSONString(newCarts),
+                    180, true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

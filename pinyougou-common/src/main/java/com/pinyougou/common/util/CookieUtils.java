@@ -18,6 +18,7 @@ public final class CookieUtils {
 	public static class CookieName{
 		/** 定义存放在Cookie中购物车的名称 */
 		public static final String PINYOUGOU_CART = "pinyougou_cart";
+		public static final String PINYOUGOUCOUNT_CART = "pinyougouCount_cart";
 	}
 	
 	

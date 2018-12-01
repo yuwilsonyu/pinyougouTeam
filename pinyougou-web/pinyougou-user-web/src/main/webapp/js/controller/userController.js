@@ -40,4 +40,5 @@ app.controller('userController', function($scope, baseService){
             alert("手机号码格式不正确！");
         }
     };
+
 });

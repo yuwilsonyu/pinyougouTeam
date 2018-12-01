@@ -1,6 +1,7 @@
 package com.pinyougou.pojo;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -54,19 +55,24 @@ public class User implements java.io.Serializable{
 	@Column(name="experience_value")
 	private Integer experienceValue;
 	@Column(name="birthday")
-	private Date birthday;
+	private Timestamp birthday;
 	@Column(name="last_login_time")
 	private Date lastLoginTime;
 	@Column(name="job")
 	private String job;
-	@Column(name="province_id")
-	private Long provinceId;
-	@Column(name="city_id")
-	private Long cityId;
-	@Column(name="town_id")
-	private Long townId;
+	@Column(name="address")
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	/** setter and getter method */
+
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -103,10 +109,10 @@ public class User implements java.io.Serializable{
 	public java.util.Date getCreated(){
 		return this.created;
 	}
-	public void setUpdated(java.util.Date updated){
+	public void setUpdated(Date updated){
 		this.updated = updated;
 	}
-	public java.util.Date getUpdated(){
+	public Date getUpdated(){
 		return this.updated;
 	}
 	public void setSourceType(String sourceType){
@@ -187,10 +193,11 @@ public class User implements java.io.Serializable{
 	public Integer getExperienceValue(){
 		return this.experienceValue;
 	}
-	public void setBirthday(java.util.Date birthday){
+	public void setBirthday(Timestamp birthday){
 		this.birthday = birthday;
 	}
-	public java.util.Date getBirthday(){
+	public Timestamp getBirthday(){
+
 		return this.birthday;
 	}
 	public void setLastLoginTime(java.util.Date lastLoginTime){
@@ -204,24 +211,6 @@ public class User implements java.io.Serializable{
 	}
 	public String getJob(){
 		return this.job;
-	}
-	public void setProvinceId(Long provinceId){
-		this.provinceId = provinceId;
-	}
-	public Long getProvinceId(){
-		return this.provinceId;
-	}
-	public void setCityId(Long cityId){
-		this.cityId = cityId;
-	}
-	public Long getCityId(){
-		return this.cityId;
-	}
-	public void setTownId(Long townId){
-		this.townId = townId;
-	}
-	public Long getTownId(){
-		return this.townId;
 	}
 
 }

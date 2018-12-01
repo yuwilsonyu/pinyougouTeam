@@ -11,7 +11,6 @@ app.controller('baseController', function ($scope) {
             $scope.reload();
         }
     };
-
     // 重新加载数据方法
     $scope.reload = function () {
         $scope.search($scope.paginationConf.currentPage,
@@ -52,4 +51,30 @@ app.controller('baseController', function ($scope) {
         }
         return resArr.join(",");
     };
+        // ++++++++++++checkbox全选反选++++++++++++++++/
+    //全选方法，并将所有的id一并传入ids数组中
+    $scope.all = function($event,dataList){
+        var checkbox = $event.target ;
+        var checked = checkbox.checked ;
+        if(checked){
+            $scope.x=true;
+            for(var key in dataList){
+                if($scope.ids.indexOf(dataList[key].id)>=0){//判断数组中是否重复存在
+                    continue;
+                }else{
+                    $scope.ids.push(dataList[key].id);
+                }
+            }
+            console.log($scope.ids);
+        } else{
+            $scope.x=false;
+            $scope.ids=[];
+        }
+
+        alert($scope.ids);
+    };
+
+
+
+
 });
