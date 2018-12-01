@@ -56,10 +56,7 @@ public interface UserService {
      */
     boolean sendSmsCode(String phone);
 
-    /**
-     * 检验短信验证码
-     */
-    boolean checkSmsCode(String smsCode, String phone);
+
 
     Map<String, Object> selectOneByUserName(String userName);
 	/** 检验短信验证码 */
