@@ -59,8 +59,7 @@ public interface UserService {
 
 
     Map<String, Object> selectOneByUserName(String userName);
-	/** 检验短信验证码 */
-	boolean checkSmsCode(String smsCode, String phone);
+
 
 	/** 更新用户密码*/
     boolean updateUserpassword(String username, String password);
@@ -75,4 +74,6 @@ public interface UserService {
 	PageResult getOrdersByPage(Order order, Integer page , Integer rows);
 	/**  修改支付状态 */
 	void updatePayStatus(String outTradeNo);
+
+    boolean checkSmsCode(String code, String phone);
 }
