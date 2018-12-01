@@ -1,6 +1,7 @@
 package com.pinyougou.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -9,7 +10,8 @@ import java.util.Date;
  * @date 2018-11-28 09:50:43
  * @version 1.0
  */
-public class User implements java.io.Serializable{
+@Table(name = "tb_user")
+public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id

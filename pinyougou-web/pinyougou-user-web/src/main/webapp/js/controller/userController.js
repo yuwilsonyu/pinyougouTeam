@@ -89,29 +89,29 @@ app.controller('userController', function ($scope, baseService,$controller,$inte
     };
 
     //检查短信验证码是否正确
-    $scope.checkCode = function (phone, code, href) {
+    $scope.checkCode = function (phone, code) {
         baseService.sendGet("user/checkCode?phone=" + phone + "&code=" + code).then(function (response) {
             if (!response.data) {
                 alert("验证码不正确,请重新输入");
                 $scope.rightCode = false;
             } else {
                 $scope.rightCode = true;
+                location.href = "/home-setting-address-phone.html";
             }
         });
     };
 
     //更新用户手机号码
     $scope.updateUserPhone = function (newPhone, code) {
-        baseService.sendGet("user/checkCode?phone=" + phone + "&code=" + code).then(function (response) {
+        baseService.sendGet("user/checkCode?phone=" + newPhone + "&code=" + code).then(function (response) {
             if (!response.data) {
                 alert("验证码不正确,请重新输入");
-                $scope.rightCode = false;
             } else {
                 baseService.sendGet("/user/updateUserPhone?newPhone=" + newPhone + "&code=" + code).then(function (response1) {
                     if (response1.data){
-                        $scope.rightCode = true;
+                        location.href="/home-setting-address-complete.html";
                     }else {
-                        $scope.rightCode = false;
+                        alert("保存失败");
                     }
                 });
             }
