@@ -32,6 +32,7 @@ public class SellerServiceImpl implements SellerService {
     private SellerMapper sellerMapper;
 
 
+<<<<<<< Updated upstream
     /** 从数据库查询用户旧密码 */
     public String findPassword(String sellerId) {
         return sellerMapper.findPassword(sellerId);
@@ -49,6 +50,10 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 添加方法
      */
+=======
+    /** 商家申请入驻 */
+    @Override
+>>>>>>> Stashed changes
     public void save(Seller seller) {
         try {
             seller.setCreateTime(new Date());
@@ -63,11 +68,26 @@ public class SellerServiceImpl implements SellerService {
      * 修改方法
      */
     public void update(Seller seller) {
+<<<<<<< Updated upstream
         try {
             sellerMapper.updateByPrimaryKeySelective(seller);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+=======
+        /*// 创建示范对象
+        Example example = new Example(Seller.class);
+        // 创建条件对象
+        Example.Criteria criteria = example.createCriteria();
+        // in条件
+        criteria.andIn("name", Arrays.asList());*/
+        try {
+            sellerMapper.updateBymessage(seller);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+>>>>>>> Stashed changes
     }
 
     /**
@@ -152,5 +172,52 @@ public class SellerServiceImpl implements SellerService {
         }
     }
 
+<<<<<<< Updated upstream
 
 }
+=======
+    /** 修改商家状态 */
+    public void updateStatus(String sellerId, String status){
+        try{
+            // update tb_seller set status = ? where seller_id = ?
+            Seller seller = new Seller();
+            seller.setSellerId(sellerId);
+            seller.setStatus(status);
+            sellerMapper.updateByPrimaryKeySelective(seller);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+        //查询用户名和密码
+    @Override                                // 密码
+    public Seller checkPassword(String username) {
+        //select * from tb_seller where seller_id = 'admin';
+
+        try{
+            return sellerMapper.getPasswordBySellerId(username);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+     //更新用户密码
+    @Override
+    public boolean updateSellerPasword(String username, String newPassword) {
+        try {
+            //update tb_seller set password='456'where seller_id='123'
+            //创建Seller 接收加密密码
+            Seller seller = new Seller();
+            seller.setPassword(newPassword);
+            //创建通用Mapper
+            Example example = new Example(Seller.class);
+            Example.Criteria criteria = example.createCriteria();
+            //根据条件更新
+            criteria.andEqualTo("sellerId",username);
+            //更新
+            sellerMapper.updateByExampleSelective(seller, example);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+>>>>>>> Stashed changes

@@ -2,7 +2,15 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+	<!--	update  tb_seller set password='user'where seller_id='psw';-->
 <mapper namespace="com.pinyougou.mapper.SellerMapper">
+
+	<select id="getPasswordBySellerId" resultType="com.pinyougou.pojo.Seller">
+		SELECT * FROM tb_seller WHERE seller_id = #{username}
+	</select>
+	<!--UPDATE  tb_seller SET password='123'where seller_id='123';-->
+	<select id="updateBymessage" >
+		UPDATE  tb_seller SET linkman_qq = #{linkmanQq} WHERE seller_id=#{sellerId}
+	</select>
 
 </mapper>
