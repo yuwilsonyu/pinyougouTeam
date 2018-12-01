@@ -59,8 +59,7 @@ public interface UserService {
 
 
     Map<String, Object> selectOneByUserName(String userName);
-	/** 检验短信验证码 */
-	boolean checkSmsCode(String smsCode, String phone);
+
 
 	/** 更新用户密码*/
     boolean updateUserpassword(String username, String password);

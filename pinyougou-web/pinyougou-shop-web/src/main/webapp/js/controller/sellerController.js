@@ -17,24 +17,51 @@ app.controller('sellerController', function($scope, $controller, baseService){
                 }
             });
     };
+    /*定义数组*/
+    $scope.seller = [];
+    //商家修改资料
+    $scope.showinformation=function () {
+        baseService.sendGet("/seller/Merchant")
+            .then(function (response) {
+                if (response.data){
+                    $scope.seller=response.data;
+                    alert(JSON.stringify(response.date))
+                }else {
+                    alert("数据回显失败")
+                }
+            })
+    };
+    /*商家后台修改密码*/
+    $scope.passwordOrUpdate = function () {
+        if($scope.psw==$scope.newPassword){
+            baseService.sendGet("/user/updateSellerPassword?oldPassword="+$scope.oldPassword+"&newPassword="+$scope.newPassword)
+                .then(function (response) {
+                    if (!response.date){
+                        alert("保存成功！");
+                        location.href = "/logout";
+                    }else {
+                        alert("操作失败")
+                    };
+                });
+        }else {
+            alert("密码不一致");
+        }
+    }
+    /*定义数组*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //保存商家信息的数据
+    $scope.SaveOrbusiness =function () {
+        baseService.sendPost("/seller/SaveOrbusiness",$scope.seller)
+            .then(function (response) {
+                if (response.data){
+                    alert("保存成功");
+                    /*刷新页面*/
+                    $scope.seller = {};
+                }else {
+                    alert("保存失败");
+                }
+            })
+    };
 
 
     /** 显示修改 */
