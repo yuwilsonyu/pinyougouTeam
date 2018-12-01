@@ -7,12 +7,16 @@ import com.pinyougou.pojo.PayLog;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import com.pinyougou.service.WeixinPayService;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.Map;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,16 +55,48 @@ public class UserController {
         return false;
     }
 
-    /** 发送短信验证码到用户手机*/
+    /**
+     * 发送短信验证码到用户手机
+     */
     @GetMapping("/sendCode")
-    public boolean sendCode(String phone){
-        try{
+    public boolean sendCode(String phone) {
+        try {
             return userService.sendSmsCode(phone);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
     }
+
+    /**
+     * 更新用户
+     */
+    @PostMapping("/update")
+    public boolean update(@RequestBody User user) {
+//        {"headPic":"xxxx","nickName":"abab","sex":"男","birthday":"2018-10-31","provinceId":"430000","cityId":"431300","townId":"431301","job":"bj"}
+        try {
+            userService.update(user);
+            return true;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 根据username用户查询
+     */
+    @GetMapping("/selectOneByUserName")
+    public Map<String, Object> selectOneByUserName(@RequestParam("userName") String userName) {
+        try {
+            return userService.selectOneByUserName(userName);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 
     /** 更新用户密码*/
     @GetMapping("/updateUserpassword")

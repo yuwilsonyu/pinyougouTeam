@@ -17,7 +17,7 @@ public interface GoodsMapper extends Mapper<Goods>{
     /** 多条件查询商品(SPU) */
     List<Map<String,Object>> findAll(Goods goods);
 
-    /** 修改商品状态 */
+    /** 修改删除状态*/
     void updateStatus(@Param("cloumnName")String cloumnName,
                       @Param("ids")Long[] ids,
                       @Param("status")String status);

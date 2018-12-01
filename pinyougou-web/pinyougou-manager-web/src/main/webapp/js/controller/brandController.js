@@ -12,6 +12,7 @@ app.controller('brandController', function ($scope,$controller, baseService) {
             $scope.searchEntity).then(function(response){
             // 响应数据 {total: 100, rows : [{},{}]} rows: List<Brand>
             $scope.dataList = response.data.rows;
+            $scope.list = response.data.rows;
             // 更新总记录数
             $scope.paginationConf.totalItems = response.data.total;
         });

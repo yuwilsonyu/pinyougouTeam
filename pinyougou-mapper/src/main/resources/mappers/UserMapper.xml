@@ -4,6 +4,28 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pinyougou.mapper.UserMapper">
+    <!--UPDATE `tb_user` SET nick_name ='abab',head_pic='11',sex=1,job='sb',province_id=312,city_id=312,town_id=231 WHERE username='RoninLeo'-->
+    <!-- 多条件查询品牌 -->
+    <update id="update">
+		update tb_user
+		set
+		nick_name =#{user.nickName},
+		head_pic=#{user.headPic},
+		sex=#{user.sex},
+		job=#{user.job},
+		birthday=#{user.birthday},
+		 address=#{user.address}
+		WHERE username=#{user.username}
+	</update>
+
+    <!--根据username用户查询 -->
+    <select id="selectOneByUserName" resultType="user">
+        SELECT username,nick_name,head_pic,sex,job,birthday,address from tb_user
+        <where>
+            username=#{userName}
+        </where>
+    </select>
+
 <select id="getUserPhone" resultType="String">
 	SELECT phone FROM tb_user WHERE username = #{username}
 </select>

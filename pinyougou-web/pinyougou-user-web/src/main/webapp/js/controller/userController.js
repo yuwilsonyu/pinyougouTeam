@@ -89,7 +89,7 @@ app.controller('userController', function ($scope, baseService,$controller,$inte
     };
 
     //检查短信验证码是否正确
-    $scope.checkCode = function (phone, code) {
+    $scope.checkCode = function (phone, code, href) {
         baseService.sendGet("user/checkCode?phone=" + phone + "&code=" + code).then(function (response) {
             if (!response.data) {
                 alert("验证码不正确,请重新输入");
@@ -182,9 +182,6 @@ app.controller('userController', function ($scope, baseService,$controller,$inte
                 // 关闭订单
                 $scope.tip = "二维码已过期。";
             });
-
         });
     };
-
-
 });
