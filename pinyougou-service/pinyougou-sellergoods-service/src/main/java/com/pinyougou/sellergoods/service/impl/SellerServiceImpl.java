@@ -49,6 +49,9 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 添加方法
      */
+
+    /** 商家申请入驻 */
+    @Override
     public void save(Seller seller) {
         try {
             seller.setCreateTime(new Date());
@@ -68,6 +71,9 @@ public class SellerServiceImpl implements SellerService {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+
+
+
     }
 
     /**
@@ -152,5 +158,52 @@ public class SellerServiceImpl implements SellerService {
         }
     }
 
+
+
+
+    /** 修改商家状态 */
+    public void updateStatus(String sellerId, String status){
+        try{
+            // update tb_seller set status = ? where seller_id = ?
+            Seller seller = new Seller();
+            seller.setSellerId(sellerId);
+            seller.setStatus(status);
+            sellerMapper.updateByPrimaryKeySelective(seller);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+        //查询用户名和密码
+    @Override
+    public Seller checkPassword(String username) {
+        //select * from tb_seller where seller_id = 'admin';
+
+        try{
+
+           return null;
+       }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+     //更新用户密码
+    @Override
+    public boolean updateSellerPasword(String username, String newPassword) {
+        try {
+            //update tb_seller set password='456'where seller_id='123'
+            //创建Seller 接收加密密码
+            Seller seller = new Seller();
+            seller.setPassword(newPassword);
+            //创建通用Mapper
+            Example example = new Example(Seller.class);
+            Example.Criteria criteria = example.createCriteria();
+            //根据条件更新
+            criteria.andEqualTo("sellerId",username);
+            //更新
+            sellerMapper.updateByExampleSelective(seller, example);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

@@ -35,4 +35,12 @@ public interface SellerService {
 	void updatePassword(String newPassword, String sellerId);
 
 	String findPassword(String sellerId);
+	/** 修改商家状态 */
+	void updateStatus(String sellerId, String status);
+	/**查看用户密码**/
+	Seller checkPassword(String username);
+	/**更新用户密码**/
+	boolean updateSellerPasword(String username, String newPassword);
+
+
 }

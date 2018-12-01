@@ -2,8 +2,10 @@ package com.pinyougou.user.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.common.util.HttpClientUtils;
 import com.pinyougou.mapper.UserMapper;
+import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -31,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 @Service(interfaceName = "com.pinyougou.service.UserService")
 @Transactional
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserMapper userMapper;
     @Value("${sms.url}")
@@ -171,6 +172,16 @@ public class UserServiceImpl implements UserService {
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public PageResult getOrdersByPage(Order order, Integer page, Integer rows) {
+        return null;
+    }
+
+    @Override
+    public void updatePayStatus(String outTradeNo) {
+
     }
 
     /** 更新用户密码 */
