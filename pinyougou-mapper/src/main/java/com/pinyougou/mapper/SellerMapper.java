@@ -5,10 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.pinyougou.pojo.User;
 
 
-import com.pinyougou.pojo.User;
+
 
 
 import tk.mybatis.mapper.common.Mapper;
