@@ -32,6 +32,7 @@ public interface SellerService {
 	/** 多条件分页查询 */
 	PageResult findByPage(Seller seller, int page, int rows);
 
+
 	void updatePassword(String newPassword, String sellerId);
 
 	String findPassword(String sellerId);

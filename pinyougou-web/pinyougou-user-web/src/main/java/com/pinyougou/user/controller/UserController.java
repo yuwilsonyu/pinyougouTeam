@@ -1,14 +1,20 @@
 package com.pinyougou.user.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.pinyougou.common.pojo.PageResult;
+import com.pinyougou.pojo.Order;
+import com.pinyougou.pojo.PayLog;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
+import com.pinyougou.service.WeixinPayService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 import java.util.List;
@@ -28,23 +34,23 @@ public class UserController {
     @Reference(timeout = 10000)
     private UserService userService;
 
-    /**
-     * 注册用户
-     */
+    @Reference(timeout = 10000)
+    private WeixinPayService weixinPayService;
+
     @Autowired
     private HttpServletRequest httpServletRequest;
 
     /** 注册用户 */
     @PostMapping("/save")
-    public boolean save(@RequestBody User user, String smsCode) {
-        try {
+    public boolean save(@RequestBody User user, String smsCode){
+        try{
             // 判断短信验证码是否正确
             boolean pass = userService.checkSmsCode(smsCode, user.getPhone());
             if (pass) {
                 userService.save(user);
             }
             return pass;
-        } catch (Exception ex) {
+        }catch (Exception ex){
             ex.printStackTrace();
         }
         return false;
@@ -140,5 +146,49 @@ public class UserController {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    /** 获取用户订单列表*/
+    @GetMapping("/getOrdersByPage")
+    public PageResult getOrdersByPage(Integer page ,Integer rows){
+        String userId = httpServletRequest.getRemoteUser();
+        Order order = new Order();
+        order.setUserId(userId);
+        return userService.getOrdersByPage(order,page,rows);
+    }
+
+    /**生成微信支付二维码url*/
+    @GetMapping("/genPayCode")
+    public Map<String,Object> genPayCode(String outTradeNo, String totalFee){
+        return weixinPayService.genPayCode(outTradeNo,totalFee);
+    }
+
+    /**
+     * 检测支付状态
+     */
+    @GetMapping("/queryPayStatus")
+    public Map<String, Integer> queryPayStatus(String outTradeNo){
+        Map<String, Integer> data = new HashMap<>();
+        data.put("status", 3);
+        try {
+            // 调用支付服务
+            Map<String,String> map = weixinPayService.queryPayStatus(outTradeNo);
+            // 判断交易状态码
+            if (map != null && map.size() > 0){
+                // 支付成功
+                if ("SUCCESS".equals(map.get("trade_state"))){
+                    // 修改支付状态
+                    userService.updatePayStatus(outTradeNo);
+                    data.put("status", 1);
+                }
+                // NOTPAY—未支付
+                if ("NOTPAY".equals(map.get("trade_state"))){
+                    data.put("status", 2);
+                }
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return data;
     }
 }

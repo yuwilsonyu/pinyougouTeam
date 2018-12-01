@@ -13,10 +13,17 @@ import com.pinyougou.pojo.Seller;
  * @version 1.0
  */
 public interface SellerMapper extends Mapper<Seller>{
+
     /** 从数据库查询原密码进  行比较 */
     @Select("select password from tb_seller where seller_id = #{sellerId}")
     String findPassword(String sellerId);
     /** 更新密码   */
     @Update("update tb_seller set password = #{newPasswordE} where seller_id = #{sellerId}")
     void updatePassword(@Param("newPasswordE") String newPasswordE, @Param("sellerId") String sellerId);
+
+    //查看用户
+    Seller getPasswordBySellerId(String username);
+    //保存信息
+     void updateBymessage(Seller seller);
+
 }

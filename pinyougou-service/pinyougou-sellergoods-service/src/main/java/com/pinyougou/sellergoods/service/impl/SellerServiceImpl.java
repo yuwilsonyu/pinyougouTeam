@@ -49,9 +49,6 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 添加方法
      */
-
-    /** 商家申请入驻 */
-    @Override
     public void save(Seller seller) {
         try {
             seller.setCreateTime(new Date());
@@ -66,11 +63,13 @@ public class SellerServiceImpl implements SellerService {
      * 修改方法
      */
     public void update(Seller seller) {
+
         try {
-            sellerMapper.updateByPrimaryKeySelective(seller);
+            sellerMapper.updateByPrimaryKey(seller);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+
 
 
 

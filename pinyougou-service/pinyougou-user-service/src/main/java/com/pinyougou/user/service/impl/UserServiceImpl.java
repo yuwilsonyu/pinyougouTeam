@@ -2,14 +2,16 @@ package com.pinyougou.user.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.common.util.HttpClientUtils;
 import com.pinyougou.mapper.UserMapper;
 import com.pinyougou.pojo.Order;
+import com.pinyougou.pojo.OrderItem;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
-import java.security.Timestamp;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -33,8 +33,13 @@ import java.util.concurrent.TimeUnit;
 @Service(interfaceName = "com.pinyougou.service.UserService")
 @Transactional
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private OrderItemMapper orderItemMapper;
     @Value("${sms.url}")
     private String smsUrl;
     @Value("${sms.signName}")
@@ -157,6 +162,48 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**  修改支付状态 */
+    @Override
+    public void updatePayStatus(String outTradeNo) {
+        try{
+            Example example = new Example(Order.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("orderId",outTradeNo);
+            Order order = new Order();
+            order.setPaymentTime(new Date());
+            order.setUpdateTime(new Date());
+            order.setPaymentType("1");
+            order.setStatus("2");
+            orderMapper.updateByExampleSelective(order,example);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**分页获取用户订单列表*/
+    @Override
+    public PageResult getOrdersByPage(Order order, Integer page , Integer rows) {
+        try {
+            PageInfo<Order> pageInfo = PageHelper.startPage(page,rows).doSelectPageInfo(new ISelect() {
+                @Override
+                public void doSelect() {
+                    orderMapper.select(order);
+                }
+            });
+            List<Order> orderList = pageInfo.getList();
+            if (orderList != null &&orderList.size() >0){
+                for (Order order1 : orderList) {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setOrderId(order1.getOrderId());
+                    order1.setOrderItemList(orderItemMapper.select(orderItem));//获取订单商品清单,并添加到订单商品清单集合
+                }
+            }
+            return new PageResult(pageInfo.getTotal(),orderList);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
     /** 更新用户手机*/
     @Override
     public boolean updateUserPhone(String username, String newPhone) {
@@ -172,16 +219,6 @@ public class UserServiceImpl implements UserService {
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
-    }
-
-    @Override
-    public PageResult getOrdersByPage(Order order, Integer page, Integer rows) {
-        return null;
-    }
-
-    @Override
-    public void updatePayStatus(String outTradeNo) {
-
     }
 
     /** 更新用户密码 */
