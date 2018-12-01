@@ -7,6 +7,7 @@ import com.pinyougou.pojo.PayLog;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import com.pinyougou.service.WeixinPayService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

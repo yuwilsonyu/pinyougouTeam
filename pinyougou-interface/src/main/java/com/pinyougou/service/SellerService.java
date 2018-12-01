@@ -32,11 +32,11 @@ public interface SellerService {
 	/** 多条件分页查询 */
 	PageResult findByPage(Seller seller, int page, int rows);
 
-<<<<<<< Updated upstream
+
 	void updatePassword(String newPassword, String sellerId);
 
 	String findPassword(String sellerId);
-=======
+
 	/** 修改商家状态 */
 	void updateStatus(String sellerId, String status);
 	/**查看用户密码**/
@@ -45,5 +45,5 @@ public interface SellerService {
 	boolean updateSellerPasword(String username, String newPassword);
 
 
->>>>>>> Stashed changes
+
 }

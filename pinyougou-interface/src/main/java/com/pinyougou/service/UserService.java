@@ -74,4 +74,6 @@ public interface UserService {
 	PageResult getOrdersByPage(Order order, Integer page , Integer rows);
 	/**  修改支付状态 */
 	void updatePayStatus(String outTradeNo);
+
+    boolean checkSmsCode(String code, String phone);
 }
