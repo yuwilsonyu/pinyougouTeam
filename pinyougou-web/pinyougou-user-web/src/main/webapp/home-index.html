@@ -8,13 +8,16 @@
     <link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css"/>
 
     <script src="/plugins/angularjs/angular.min.js"></script>
-    <script src="/js/base.js"></script>
+    <script src="plugins/angularjs/pagination.css"></script>
+    <script src="plugins/angularjs/pagination.js"></script>
+    <script src="/js/base-pagination.js"></script>
     <script src="/js/service/baseService.js"></script>
-    <script src="/js/controller/indexController.js"></script>
+    <script src="/js/controller/baseController.js"></script>
+    <script src="/js/controller/userController.js"></script>
 </head>
 <body ng-app="pinyougou"
-      ng-controller="indexController"
-      ng-init="showName();">
+      ng-controller="userController"
+      ng-init="showName();getOrdersByPage(1,5)">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -206,66 +209,69 @@ $(function(){
                         </div>
                         <div class="order-detail">
                             <div class="orders">
-                                <div class="choose-order">
-                                    <div class="sui-pagination pagination-large top-pages">
-                                        <ul>
-                                            <li class="prev disabled"><a href="#">上一页</a></li>
+                                <!--<div class="choose-order">-->
+                                    <!--<div class="sui-pagination pagination-large top-pages">-->
+                                        <!--<ul>-->
+                                            <!--<li class="prev disabled"><a href="#">上一页</a></li>-->
 
-                                            <li class="next"><a href="#">下一页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                            <!--<li class="next"><a href="#">下一页</a></li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
 
 								<!--order1-->
+                                <div ng-repeat="order in dataList">
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
+                                           <input type="checkbox" checked="checked"><span>{{order.createTime|date:'yyyy-MM-dd HH:mm:ss'}}　订单编号：{{order.orderId}}  店铺：{{order.sellerId}} <a>和我联系</a></span>
                                      </label>
 									  <a class="sui-btn btn-info share-btn">分享</a>
                                 </div>
                                 <table class="sui-table table-bordered order-datatable">
                                     <tbody>
-                                        <tr>
+                                        <tr ng-repeat="orderItem in order.orderItemList">
                                             <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
+                                                <div class="typographic"><img src="{{orderItem.picPath}}" width="82px" height="82px"/>
+                                                    <a href="#" class="block-text">{{orderItem.title}}</a>
+                                                    <span class="guige">规格：M</span>
                                                 </div>
                                             </td>
                                             <td width="5%" class="center">
                                                 <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
+                                                    <li class="o-price">¥{{orderItem.price}}</li>
+                                                    <li>¥{{orderItem.price}}</li>
                                                 </ul>
                                             </td>
-                                            <td width="5%" class="center">1</td>
+                                            <td width="5%" class="center">{{orderItem.num}}</td>
                                             <td width="8%" class="center">
                                                
                                             </td>
+                                            <div ng-if="$index==0">
                                             <td width="10%" class="center" >
                                                 <ul class="unstyled">
-                                                    <li>¥299.00</li>
+                                                    <li>¥{{order.payment}}</li>
                                                     <li>（含运费：￥0.00）</li>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center">
                                                 <ul class="unstyled">
-                                                    <li>等待卖家付款</li>
+                                                    <li>{{orderStatus[order.status -1]}}</li>
                                                     <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center">
                                                 <ul class="unstyled">
-													<li><a href="#" class="sui-btn btn-info">立即付款</a></li>
+													<li ng-if="order.status==1"><a href="#" ng-click="pay(order.orderId,order.payment)" class="sui-btn btn-info">立即付款</a></li>
+													<li ng-if="order.status==2">待商家发货</li>
                                                     <li>取消订单</li>
-                                                    
                                                 </ul>
                                             </td>
+                                            </div>
                                         </tr>
-                                        
-
                                     </tbody>
                                 </table>
+                                </div>
                                 <!--order2-->
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
@@ -334,8 +340,6 @@ $(function(){
                                                     <li><a>退货/退款</a></li>
                                                 </ul>
                                             </td>
-
-
                                         </tr>
 
                                     </tbody>
@@ -398,18 +402,8 @@ $(function(){
                             </div>
                             <div class="choose-order">
                                 <div class="sui-pagination pagination-large top-pages">
-                                    <ul>
-                                        <li class="prev disabled"><a href="#">«上一页</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li class="dotted"><span>...</span></li>
-                                        <li class="next"><a href="#">下一页»</a></li>
-                                    </ul>
-                                    <div><span>共10页&nbsp;</span><span>
-                                            到
-                                            <input type="text" class="page-num"><button class="page-confirm" onclick="alert(1)">确定</button>
-                                            页</span></div>
+                                    <!--分页指令-->
+                                    <tm-pagination conf="paginationConf"/>
                                 </div>
                             </div>
 

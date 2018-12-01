@@ -1,5 +1,7 @@
 /** 定义控制器层 */
-app.controller('userController', function ($scope, baseService) {
+app.controller('userController', function ($scope, baseService,$controller,$interval,$location) {
+
+    $controller('baseController',{$scope:$scope});
 
     $scope.user = {}
 
@@ -87,7 +89,7 @@ app.controller('userController', function ($scope, baseService) {
     };
 
     //检查短信验证码是否正确
-    $scope.checkCode = function (phone, code, href) {
+    $scope.checkCode = function (phone, code) {
         baseService.sendGet("user/checkCode?phone=" + phone + "&code=" + code).then(function (response) {
             if (!response.data) {
                 alert("验证码不正确,请重新输入");
@@ -114,6 +116,75 @@ app.controller('userController', function ($scope, baseService) {
                 });
             }
         });
-
     };
+
+    //获取登录用户订单详情
+    $scope.getOrdersByPage = function (page,rows) {
+        baseService.sendGet("/user/getOrdersByPage?page="+page+"&rows="+rows).then(function (response) {
+            $scope.dataList = response.data.rows;
+            for(var i=0;i<$scope.dataList.length;i++){
+                $scope.dataList[i].orderId = $scope.dataList[i].orderId + '';
+            }
+            $scope.paginationConf.totalItems = response.data.total;
+        });
+    };
+
+    //定义订单状态数组
+    $scope.orderStatus=['未付款','已付款','未发货','已发货','交易成功','交易关闭','待评价'];
+
+    //获取订单号和支付总金额(分),并跳转到支付页面方法
+    // $scope.outTradeNo1 = {};
+    // $scope.totalFee1 = {};
+    $scope.pay = function (orderId,payment) {
+        $scope.totalFee1 = payment *100;
+        location.href ="/pay.html?outTradeNo="+orderId+"&totalFee="+$scope.totalFee1;
+    };
+
+    // 生成微信支付二维码
+    $scope.genPayCode = function () {
+        $scope.outTradeNo=$location.search().outTradeNo;
+        $scope.totalFee=$location.search().totalFee;
+        baseService.sendGet("/user/genPayCode?outTradeNo="+$scope.outTradeNo +"&totalFee="+$scope.totalFee).then(function(response){
+
+            // 获取交易总金额
+            $scope.money = (response.data.totalFee / 100).toFixed(2);
+
+            // 生成二维码
+            document.getElementById("img").src = "/barcode?url=" + response.data.codeUrl;
+            /**
+             * 开启定时器，间隔3秒发送异步请求，检测支付状态
+             * 第一个参数：回调函数
+             * 第二个参数；间隔毫秒
+             * 第三个参数：调用的总次数
+             */
+            var timer = $interval(function(){
+                // 间隔3秒发送异步请求，检测支付状态
+                baseService.sendGet("/user/queryPayStatus?outTradeNo="
+                    + $scope.outTradeNo).then(function(response){
+                    // 获取响应数据
+                    if (response.data.status == 1){ // 支付成功
+                        // 取消定时器
+                        $interval.cancel(timer);
+                        // 跳转到支付成功的页面
+                        location.href = "/paysuccess.html";
+                    }
+                    if (response.data.status == 3){ // 支付失败
+                        // 取消定时器
+                        $interval.cancel(timer);
+                        // 跳转到支付成功的页面
+                        location.href = "/payfail.html";
+                    }
+                });
+            }, 3000, 100);
+
+            // 在总次数调用完之后，会调用该函数
+            timer.then(function(){
+                // 关闭订单
+                $scope.tip = "二维码已过期。";
+            });
+
+        });
+    };
+
+
 });

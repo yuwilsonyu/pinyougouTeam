@@ -1,5 +1,7 @@
 package com.pinyougou.service;
 
+import com.pinyougou.common.pojo.PageResult;
+import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.User;
 import java.util.List;
 import java.io.Serializable;
@@ -45,4 +47,9 @@ public interface UserService {
 
 	/** 更新用户手机号*/
     boolean updateUserPhone(String username, String newPhone);
+
+	/** 获取用户订单列表*/
+	PageResult getOrdersByPage(Order order, Integer page , Integer rows);
+	/**  修改支付状态 */
+	void updatePayStatus(String outTradeNo);
 }
