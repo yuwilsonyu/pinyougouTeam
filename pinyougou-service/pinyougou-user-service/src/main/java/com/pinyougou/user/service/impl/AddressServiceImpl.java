@@ -26,17 +26,29 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(Address address) {
-
+        try {
+            addressMapper.insert(address);
+        } catch (Exception e) {
+            throw  new RuntimeException();
+        }
     }
 
     @Override
     public void update(Address address) {
-
+        try {
+            addressMapper.updateByPrimaryKey(address);
+        } catch (Exception e) {
+            throw  new RuntimeException();
+        }
     }
 
     @Override
     public void delete(Serializable id) {
-
+        try {
+            addressMapper.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+            throw  new RuntimeException();
+        }
     }
 
     @Override
