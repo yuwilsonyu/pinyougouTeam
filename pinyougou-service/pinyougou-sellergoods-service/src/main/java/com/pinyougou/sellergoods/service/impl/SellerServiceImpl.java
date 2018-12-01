@@ -188,9 +188,9 @@ public class SellerServiceImpl implements SellerService {
         }
     }
         //查询用户名和密码
-    @Override                                // 密码
+    @Override
     public Seller checkPassword(String username) {
-        //select * from tb_seller where seller_id = 'admin';
+
 
         try{
             return sellerMapper.getPasswordBySellerId(username);
