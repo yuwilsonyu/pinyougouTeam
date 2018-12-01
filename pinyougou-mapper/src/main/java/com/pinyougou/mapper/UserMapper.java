@@ -24,4 +24,6 @@ public interface UserMapper extends Mapper<User> {
      */
     User selectOneByUserName(@Param("userName") String userName);
 
+
+    String getUserPhone(String username);
 }

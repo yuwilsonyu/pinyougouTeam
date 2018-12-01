@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pinyougou.mapper.UserMapper">
     <!--UPDATE `tb_user` SET nick_name ='abab',head_pic='11',sex=1,job='sb',province_id=312,city_id=312,town_id=231 WHERE username='RoninLeo'-->
@@ -26,4 +26,7 @@
         </where>
     </select>
 
+<select id="getUserPhone" resultType="String">
+	SELECT phone FROM tb_user WHERE username = #{username}
+</select>
 </mapper>

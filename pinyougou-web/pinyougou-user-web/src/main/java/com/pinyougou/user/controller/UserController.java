@@ -4,7 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import org.springframework.http.StreamingHttpOutputMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Example;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,10 @@ public class UserController {
     /**
      * 注册用户
      */
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    /** 注册用户 */
     @PostMapping("/save")
     public boolean save(@RequestBody User user, String smsCode) {
         try {
@@ -61,7 +70,9 @@ public class UserController {
     public boolean update(@RequestBody User user) {
 //        {"headPic":"xxxx","nickName":"abab","sex":"男","birthday":"2018-10-31","provinceId":"430000","cityId":"431300","townId":"431301","job":"bj"}
         try {
-            return userService.update(user);
+            userService.update(user);
+            return true;
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -82,4 +93,52 @@ public class UserController {
     }
 
 
+    /** 更新用户密码*/
+    @GetMapping("/updateUserpassword")
+    public boolean updateUserpassword(String password){
+        try{
+            String username = httpServletRequest.getRemoteUser();
+            return userService.updateUserpassword(username,password);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**获取登录用户手机号*/
+    @GetMapping("/getUserPhone")
+    public String getUserPhone(){
+        try {
+            String username = httpServletRequest.getRemoteUser();
+            String phone = userService.getUserPhone(username);
+            return phone;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /** 验证验证码是否正确*/
+    @GetMapping("/checkCode")
+    public boolean checkCode(String phone, String code){
+        try{
+            boolean ok = userService.checkSmsCode(code,phone);
+            return ok;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /** 更新用户手机*/
+    @GetMapping("/updateUserPhone")
+    public boolean updateUserPhone (String newPhone,String code){
+        try {
+            String username = httpServletRequest.getRemoteUser();
+            return userService.updateUserPhone(username,newPhone);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }
