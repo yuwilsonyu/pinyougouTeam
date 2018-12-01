@@ -1,5 +1,6 @@
 // 定义后台主面的控制器
-app.controller('indexController', function ($scope, baseService) {
+app.controller('indexController', function ($scope, baseService,$controller) {
+
 
     /** 定义获取登录用户名的方法 */
     $scope.showLoginName = function () {
@@ -8,4 +9,6 @@ app.controller('indexController', function ($scope, baseService) {
             $scope.loginName = response.data.loginName;
         });
     };
+
+
 });

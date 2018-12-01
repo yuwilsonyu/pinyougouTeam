@@ -76,7 +76,10 @@
 				<thead>
 					<tr>
 						<th class="" style="padding-right:0px">
-							<input id="selall" type="checkbox" class="icheckbox_square-blue">
+							<input id="selall" type="checkbox"
+								   ng-model="master"
+								   ng-click="all($event,dataList)"
+								   class="icheckbox_square-blue">
 						</th> 
 						<th class="sorting_asc">品牌ID</th>
 						<th class="sorting">品牌名称</th>									      
@@ -89,7 +92,11 @@
 					<tr ng-repeat="entity in dataList">
 						<!-- $event事件对象angular -->
 						<td><input type="checkbox"
-								   ng-click="updateSelection($event, entity.id);"></td>
+								   name="selected"
+								   ng-model="x"
+								   ng-checked="master"
+								   ng-click="updateSelection($event, entity.id);"
+						></td>
 						<td>{{entity.id}}</td>
 						<td>{{entity.name}}</td>
 						<td>{{entity.firstChar}}</td>

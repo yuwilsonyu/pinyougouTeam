@@ -1,5 +1,6 @@
 package com.pinyougou.mapper;
 
+import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
 import com.pinyougou.pojo.Address;
@@ -10,7 +11,6 @@ import com.pinyougou.pojo.Address;
  * @version 1.0
  */
 public interface AddressMapper extends Mapper<Address>{
-
 
 
 }

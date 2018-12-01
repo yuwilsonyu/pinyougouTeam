@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/angularjs/angular.min.js"></script>
+    <script src="/js/controller/test2.js"></script>
+</head>
+<body ng-app="myApp2">
+<div ng-controller="myController">
+    <label for="flag">全选
+        <input id="flag" type="checkbox" ng-model="select_all" ng-change="selectAll()">
+    </label>
+    <ul>
+        <li ng-repeat="i in list">
+            <input type="checkbox" ng-click="updateSelection($event, i.qq);" ng-model="i.checked" ng-change="selectOne();">
+            <span>{{id}}</span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

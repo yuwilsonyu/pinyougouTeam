@@ -4,6 +4,8 @@ app.controller('orderController', function ($scope,$controller,$interval,$locati
     // 指定继承cartController
     $controller('cartController', {$scope:$scope});
 
+
+
     // 查询当前登录用户的收货地址
     $scope.findAddressByUser = function () {
         baseService.sendGet("/order/findAddressByUser").then(function (response) {
