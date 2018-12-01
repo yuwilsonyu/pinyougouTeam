@@ -31,8 +31,6 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellerMapper sellerMapper;
 
-
-<<<<<<< Updated upstream
     /** 从数据库查询用户旧密码 */
     public String findPassword(String sellerId) {
         return sellerMapper.findPassword(sellerId);
@@ -50,10 +48,10 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 添加方法
      */
-=======
+
     /** 商家申请入驻 */
     @Override
->>>>>>> Stashed changes
+
     public void save(Seller seller) {
         try {
             seller.setCreateTime(new Date());
@@ -68,26 +66,13 @@ public class SellerServiceImpl implements SellerService {
      * 修改方法
      */
     public void update(Seller seller) {
-<<<<<<< Updated upstream
+
         try {
-            sellerMapper.updateByPrimaryKeySelective(seller);
+            sellerMapper.updateByPrimaryKey(seller);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-=======
-        /*// 创建示范对象
-        Example example = new Example(Seller.class);
-        // 创建条件对象
-        Example.Criteria criteria = example.createCriteria();
-        // in条件
-        criteria.andIn("name", Arrays.asList());*/
-        try {
-            sellerMapper.updateBymessage(seller);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
->>>>>>> Stashed changes
     }
 
     /**
@@ -172,10 +157,6 @@ public class SellerServiceImpl implements SellerService {
         }
     }
 
-<<<<<<< Updated upstream
-
-}
-=======
     /** 修改商家状态 */
     public void updateStatus(String sellerId, String status){
         try{
@@ -220,4 +201,4 @@ public class SellerServiceImpl implements SellerService {
         }
     }
 }
->>>>>>> Stashed changes
+

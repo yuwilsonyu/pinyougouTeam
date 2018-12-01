@@ -44,11 +44,15 @@ public class SellerController {
         }
         return false;
     }
+
+
+
     @GetMapping("/Merchant")
     public Seller Merchant(){
-
         try {
+            //获取当前用户名
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            //查询数据
             Seller seller = sellerService.checkPassword(username);
             return seller;
         } catch (Exception e) {
@@ -56,6 +60,8 @@ public class SellerController {
         }
         return null;
     }
+
+
     //保存商家信息
     @PostMapping("/SaveOrbusiness")
     public boolean SaveOrbusiness(@RequestBody Seller seller){

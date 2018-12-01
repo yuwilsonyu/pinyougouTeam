@@ -8,9 +8,5 @@
 	<select id="getPasswordBySellerId" resultType="com.pinyougou.pojo.Seller">
 		SELECT * FROM tb_seller WHERE seller_id = #{username}
 	</select>
-	<!--UPDATE  tb_seller SET password='123'where seller_id='123';-->
-	<select id="updateBymessage" >
-		UPDATE  tb_seller SET linkman_qq = #{linkmanQq} WHERE seller_id=#{sellerId}
-	</select>
 
 </mapper>
